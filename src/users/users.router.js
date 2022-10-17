@@ -31,6 +31,12 @@ router.route('/me')
         userServices.getMyUser)
     //.patch()
     //.delete()
+    .patch( 
+         passport.authenticate('jwt', {session: false}),
+         userServices.patchMyUser)
+         .delete( 
+            passport.authenticate('jwt', {session: false}),
+            userServices.deleteMyUser)
 
 //? /api/v1/users/:id
 router.route('/:id')

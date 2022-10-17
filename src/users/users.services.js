@@ -107,7 +107,37 @@ const getMyUser = (req , res) => {
     })
 }
 
+const patchMyUser = (req , res) => {
+  const id = req.user.id
+  usersControllers.updateUser(id, { firstName, lastName, phone, gender, country })
+  .then((data) => {
+    if (data[0]) {
+      res
+        .status(200)
+        .json({ message: `User with ID: ${id}, edited succesfully!` });
+    } else {
+      res.status(404).json({ message: "Invalid ID" });
+    }
+  })
+  .catch((err) => {
+    res.status(400).json({ message: err.message });
+  });
+}
 
+const deleteMyUser = (req , res) => {
+  const id = req.user.id
+  usersControllers.deleteUser(id)
+  .then((data) => {
+    if (data) {
+      res.status(204).json();
+    } else {
+      res.status(404).json({ message: "Invalid ID" });
+    }
+  })
+  .catch((err) => {
+    res.status(400).json({ message: err.message });
+  });
+}
 
 module.exports = {
     getAllUsers,
@@ -115,6 +145,8 @@ module.exports = {
     patchUser,
     registerUser,
     deleteUser,
-    getMyUser
+    getMyUser,
+    patchMyUser,
+    deleteMyUser
 }
 
